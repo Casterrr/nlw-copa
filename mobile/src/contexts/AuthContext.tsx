@@ -47,21 +47,22 @@ export function AuthContextProvider({ children }) {
   }
 
   async function singInWithGoogle(access_token: string) {
-    // try {
-    //   setIsUserLoading(true);
+    try {
+      setIsUserLoading(true);
       
-    //   const tokenResponse = await api.post('/users', { access_token });
-    //   api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`;
+      const tokenResponse = await api.post('/users', { access_token });
+      console.log(tokenResponse.data)
+      api.defaults.headers.common['Authorization'] = `Bearer ${tokenResponse.data.token}`;
 
-    //   const userInfoResponse = await api.get('/me');
-    //   setUser(userInfoResponse.data.user);
-        console.log("TOKEN DE AUTENTICAÇÃO ---> ", access_token);
-    // } catch (error) {
-    //   console.log(error);
-    //   throw error;
-    // } finally {
-    //   setIsUserLoading(false);
-    // }
+      const userInfoResponse = await api.get('/me');
+      setUser(userInfoResponse.data.user);
+      // console.log("TOKEN DE AUTENTICAÇÃO ---> ", access_token);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    } finally {
+      setIsUserLoading(false);
+    }
   }
 
   useEffect(() => {

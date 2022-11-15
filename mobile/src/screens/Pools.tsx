@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { VStack, Icon, useToast, FlatList } from 'native-base';
 import { Octicons } from '@expo/vector-icons';
-// import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { api } from '../services/api';
 
@@ -14,8 +14,8 @@ import { EmptyPoolList } from '../components/EmptyPoolList';
 export function Pools() {
   const [isLoading, setIsLoading] = useState(true);
   const [pools, setPools] = useState<PoolCardPros[]>([])
-  
-//   const { navigate } = useNavigation();
+
+  const { navigate } = useNavigation();
   const toast = useToast();
 
   async function fetchPools() {
@@ -47,7 +47,7 @@ export function Pools() {
         <Button 
           title="BUSCAR BOLÃO POR CÓDIGO" 
           leftIcon={<Icon as={Octicons} name="search" color="black" size="md" />}
-        //   onPress={() => navigate('find')}
+          onPress={() => navigate('find')}
         />
       </VStack>
 
