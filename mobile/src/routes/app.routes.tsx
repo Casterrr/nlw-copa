@@ -6,7 +6,7 @@ import { useTheme } from 'native-base';
 import { New } from '../screens/New';
 import { Pools } from '../screens/Pools';
 import { Find } from '../screens/Find';
-// import { Details } from '../screens/Details';
+import { Details } from '../screens/Details';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -56,11 +56,11 @@ export function AppRoutes() {
         options={{ tabBarButton: () => null }}
       />
 
-      {/* <Screen 
+      <Screen 
         name="details"
         component={Details}
         options={{ tabBarButton: () => null }}
-      /> */}
+      />
     </Navigator>
   )
 }

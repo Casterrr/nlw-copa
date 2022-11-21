@@ -10,44 +10,48 @@ import { Header } from "../components/Header";
 import { Input } from "../components/Input";
 
 export function New() {
-  // const [title, setTitle] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const toast = useToast();
+  const toast = useToast();
 
-  // async function handlePoolCreate() {
-  //   if(!title.trim()) {
-  //     return toast.show({
-  //       title: 'Informer um nome para o seu bolão',
-  //       placement: 'top',
-  //       bgColor: 'red.500'
-  //     })
-  //   }
+  async function handlePoolCreate() {
+    if(!title.trim()) {
+      return toast.show({
+        title: 'Informe um nome para o seu bolão',
+        description: 'Um bolão precisa ter um nome',
+        placement: 'top',
+        bgColor: 'red.500',
+        duration: 2500
+        
+      })
+    }
     
-  //   try {
-  //     setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-  //     await api.post('/pools', { title: title.toUpperCase() });
+      await api.post('/pools', { title: title.toUpperCase() });
 
-  //     toast.show({
-  //       title: 'Bolão criado com sucesso!',
-  //       placement: 'top',
-  //       bgColor: 'green.500'
-  //     });
+      toast.show({
+        title: 'Bolão criado com sucesso!',
+        placement: 'top',
+        bgColor: 'green.500'
+      });
 
-  //     setTitle('');
+      setTitle('');
 
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.show({
-  //       title: 'Não foi possível criar o bolão',
-  //       placement: 'top',
-  //       bgColor: 'red.500'
-  //     })
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }
+    } catch (error) {
+      console.log(error);
+      toast.show({
+        title: 'Não foi possível criar o bolão',
+        description: 'Algo deu errado, tente novamente!',
+        placement: 'top',
+        bgColor: 'red.500'
+      })
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <VStack flex={1} bg="gray.900">
@@ -64,14 +68,14 @@ export function New() {
         <Input 
           mb={2}
           placeholder="Qual o nome do seu bolão?"
-          // onChangeText={setTitle}
-          // value={title}
+          onChangeText={setTitle}
+          value={title}
         />
 
         <Button
           title="CRIAR MEU BOLÃO"
-          // onPress={handlePoolCreate}
-          // isLoading={isLoading}
+          onPress={handlePoolCreate}
+          isLoading={isLoading}
         />
 
         <Text color="gray.200" fontSize="sm" textAlign="center" px={10} mt={4}>

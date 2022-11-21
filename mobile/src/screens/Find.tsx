@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Heading, useToast, VStack } from "native-base";
-// import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { api } from "../services/api";
 
@@ -9,57 +9,65 @@ import { Header } from "../components/Header";
 import { Input } from "../components/Input";
 
 export function Find() {
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [code, setCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [code, setCode] = useState('');
   
-//   const toast = useToast();
-// //   const { navigate } = useNavigation();
+  const toast = useToast();
+  const { navigate } = useNavigation();
 
-//   async function handleJoinPool() {
-//     try {
-//       setIsLoading(true);
+  async function handleJoinPool() {
+    if(!code.trim()) {
+      toast.show({
+        title: 'Informe o código',
+        placement: 'top',
+        bgColor: 'red.500',
+        duration: 2500
+      });
 
-//       if(!code.trim()) {
-//         toast.show({
-//           title: 'Informe o código',
-//           placement: 'top',
-//           bgColor: 'red.500'
-//         });
-//       }
+      return
+    }
 
-//       await api.post('/pools/join', { code });
+    try {
+      setIsLoading(true);
 
-//       toast.show({
-//         title: 'Você no bolão com sucesso!',
-//         placement: 'top',
-//         bgColor: 'green.500'
-//       });
+      
 
-//     //   navigate('pools');
+      await api.post('/pools/join', { code });
 
-//     } catch (error) {
-//       console.log(error);
-//       setIsLoading(false);
+      toast.show({
+        title: 'Você entrou no bolão com sucesso!',
+        placement: 'top',
+        bgColor: 'green.500',
+        duration: 2500
+      });
 
-//       if(error.response?.data?.message === 'Pool not found.') {
-//         toast.show({
-//           title: 'Não foi possível encontrar o bolão',
-//           placement: 'top',
-//           bgColor: 'red.500'
-//         });
-//         return;
-//       }
+      navigate('pools');
 
-//       if(error.response?.data?.message === 'You already joined this poll.') {
-//         toast.show({
-//           title: 'Você já está nesse bolão',
-//           placement: 'top',
-//           bgColor: 'red.500'
-//         });
-//         return;
-//       }
-//     }
-//   }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+
+      if(error.response?.data?.message === 'Pool not found.') {
+        toast.show({
+          title: 'Não foi possível encontrar o bolão',
+          placement: 'top',
+          bgColor: 'red.500',
+          duration: 2500
+        });
+        return;
+      }
+
+      if(error.response?.data?.message === 'You already joined this poll.') {
+        toast.show({
+          title: 'Você já está nesse bolão',
+          placement: 'top',
+          bgColor: 'red.500',
+          duration: 2500
+        });
+        return;
+      }
+    }
+  }
 
   return (
     <VStack flex={1} bg="gray.900">
@@ -76,12 +84,12 @@ export function Find() {
           mb={2}
           placeholder="Qual o código do bolão?"
           autoCapitalize="characters"
-        //   onChangeText={setCode}
+          onChangeText={setCode}
         />
 
         <Button
           title="BUSCAR POR CÓDIGO"
-        //   onPress={handleJoinPool}
+          onPress={handleJoinPool}
         />
       </VStack>
     </VStack>
