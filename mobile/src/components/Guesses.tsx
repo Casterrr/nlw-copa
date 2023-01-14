@@ -39,6 +39,8 @@ export function Guesses({ poolId, code }: Props) {
   }
 
   async function handleGuessConfirm(gameId: string) {
+    
+
     try {
       if (!firstTeamPoints.trim() || !secondTeamPoints.trim()) {
         return toast.show({
@@ -48,10 +50,14 @@ export function Guesses({ poolId, code }: Props) {
         });
       }
 
+      console.log('primeiro gameid: ', gameId)
+
       await api.post(`/pools/${poolId}/games/${gameId}/guesses`, {
         firstTeamPoints: Number(firstTeamPoints),
         secondTeamPoints: Number(secondTeamPoints),
       });
+
+      console.log('segundo gameid: ', gameId)
 
       toast.show({
         title: 'Palpite realizado com sucesso!',

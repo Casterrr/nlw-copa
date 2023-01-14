@@ -26,6 +26,8 @@ export async function guessRoutes(fastify: FastifyInstance) {
     const { poolId, gameId } = createGuessParams.parse(request.params)
     const { firstTeamPoints, secondTeamPoints } = createGuessBody.parse(request.body)
 
+    console.log("primeiro chegou aqui!!!")
+
     const participant = await prisma.participant.findUnique({
       where: {
         userId_poolId: {
@@ -35,11 +37,15 @@ export async function guessRoutes(fastify: FastifyInstance) {
       }
     })
 
+    console.log("segundo chegou aqui!!!")
+
     if (!participant) {
       return reply.status(400).send({
         message: "You're not allowed to create a guess inside this pool."
       })
     }
+
+    console.log("terceiro chegou aqui!!!")
 
     const guess = await prisma.guess.findUnique({
       where: {
@@ -50,11 +56,14 @@ export async function guessRoutes(fastify: FastifyInstance) {
       }
     })
 
+
     if (guess) {
       return reply.status(400).send({
         message: "You already sent a guess to this game on this pool."
       })
     }
+    
+    console.log("quarto chegou aqui!!!")
 
     const game = await prisma.game.findUnique({
       where: {
@@ -62,17 +71,23 @@ export async function guessRoutes(fastify: FastifyInstance) {
       }
     })
 
+    console.log("quinto chegou aqui!!!")
+
     if (!game) {
+      console.log("sexto chegou aqui!!!")
       return reply.status(400).send({
         message: "Game not found."
       })
     }
 
     if (game.date < new Date()) {
+      console.log("sétimo chegou aqui!!!")
       return reply.status(400).send({
         message: "You cannot send guesses after the game date."
       })
     }
+
+    
 
     await prisma.guess.create({
       data: {
@@ -82,6 +97,8 @@ export async function guessRoutes(fastify: FastifyInstance) {
         secondTeamPoints,
       }
     })
+
+    console.log("oitavo chegou aqui!!!")
 
     return reply.status(201).send()
   })

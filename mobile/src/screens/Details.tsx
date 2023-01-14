@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Share } from 'react-native';
 import { HStack, useToast, VStack } from 'native-base';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 
 import { api } from '../services/api';
 
@@ -54,6 +54,11 @@ export function Details() {
   useEffect(() => {
     fetchPoolDetails();
   }, [id])
+
+
+  useFocusEffect(useCallback(() => {
+    fetchPoolDetails();
+  },[]))
 
   if(isLoading) {
     return( 
